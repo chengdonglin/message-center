@@ -27,3 +27,20 @@
 
 
 
+### 工程结构
+
+| 工程名| 说明                     |
+|----|------------------------|
+| message-center-admin| 管理后台，创建用户，创建密钥，查看相关信息等 |
+| message-center-receive| 消息接受入口，包括http,grpc等|
+| message-center-sdk| springboot starter 快速接入|
+| message-center-demo | 模拟客户端接入的工程|
+
+
+### 技术栈
+
+| 技术| 版本| 说明|
+|----|----|----|
+| spring-boot| 2.7.15| springboot基础框架|
+| mybatis-plus| 3.5.5 | 数据库操作|
+| redis | 6.0.0 | 缓存数据库|
