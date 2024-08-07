@@ -31,6 +31,7 @@
 
 | 工程名| 说明                     |
 |----|------------------------|
+| message-center-common| 通用模块|
 | message-center-admin| 管理后台，创建用户，创建密钥，查看相关信息等 |
 | message-center-receive| 消息接受入口，包括http,grpc等|
 | message-center-sdk| springboot starter 快速接入|
