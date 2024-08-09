@@ -26,7 +26,7 @@ public class MessageCmd {
 
         private String content;
 
-        private LocalDateTime expectSendTime;
+        private Integer delaySecond;
 
         // 投递失败了，是否还需要重试？1：是，0：否
         private Integer sendRetry;
@@ -37,7 +37,7 @@ public class MessageCmd {
 
         private String tag;
 
-        private Boolean sendMq;
+        private Integer sendMq;
 
         private String callbackUrl;
 

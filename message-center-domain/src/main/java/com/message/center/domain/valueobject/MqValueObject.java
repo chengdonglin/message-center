@@ -1,6 +1,6 @@
 package com.message.center.domain.valueobject;
 
-import com.message.center.infrastructure.exception.ParamVerifyException;
+import com.message.center.domain.exception.ParamVerifyException;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 
@@ -26,9 +26,9 @@ public class MqValueObject {
 
     private final String tag;
 
-    private final Boolean sendMq;
+    private final Integer sendMq;
 
-    public MqValueObject(String mqType, String topic, String routingKey, String tag, Boolean sendMq) {
+    public MqValueObject(String mqType, String topic, String routingKey, String tag, Integer sendMq) {
         this.mqType = mqType;
         this.topic = topic;
         this.routingKey = routingKey;
@@ -37,7 +37,7 @@ public class MqValueObject {
     }
 
     public void verify() {
-        if (sendMq) {
+        if (sendMq.equals(1)) {
             if (!StringUtils.hasText(topic)) {
                 throw new ParamVerifyException("send mq topic can not be empty");
             }

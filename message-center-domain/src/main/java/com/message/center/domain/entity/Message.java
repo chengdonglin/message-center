@@ -1,19 +1,21 @@
 package com.message.center.domain.entity;
 
+import com.message.center.domain.exception.ParamVerifyException;
+import com.message.center.domain.valueobject.CallbackValueObject;
 import com.message.center.domain.valueobject.MqValueObject;
-import com.message.center.infrastructure.exception.ParamVerifyException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @Author linchengdong
  * @Date 2024-08-08 13:47
  * @PackageName:com.message.center.domain.entity
  * @ClassName: MessageDomain
- * @Description: TODO
+ * @Description: 消息实体
  * @Version 1.0
  */
 @Setter
@@ -29,10 +31,9 @@ public class Message {
      */
     private String content;
 
-    /**
-     * 消息期望投递时间，大于当前时间，则为延迟消息，否则会立即投递
-     */
-    private LocalDateTime expectSendTime;
+
+    private String key;
+
 
     /**
      *  消息实际投递时间
@@ -85,16 +86,24 @@ public class Message {
 
     private MqValueObject mqValueObject;
 
-    public Message(String id, String businessType, String content, LocalDateTime expectSendTime, Client client, MqValueObject mqValueObject) {
+
+    private CallbackValueObject callbackValueObject;
+
+    /**
+     * 消息期望投递时间，大于当前时间，则为延迟消息，否则会立即投递
+     */
+    private LocalDateTime expectSendTime;
+
+    public Message(String id, String businessType, String content,  Client client, MqValueObject mqValueObject,CallbackValueObject callbackValueObject) {
         this.id = id;
         this.businessType = businessType;
         this.content = content;
-        this.expectSendTime = expectSendTime;
         this.client = client;
         this.mqValueObject = mqValueObject;
         this.failMsg = "";
         this.sendRetry = 0;
         this.status = 0;
+        this.callbackValueObject = callbackValueObject;
     }
 
 
@@ -106,4 +115,15 @@ public class Message {
             throw new ParamVerifyException("content can not be empty");
         }
     }
+
+
+    public void calculateExpectTime(Integer delaySecond) {
+        if(delaySecond < 0) {
+            throw new ParamVerifyException("delaySecond value can not less 0");
+        }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime dateTime = now.plus(delaySecond, ChronoUnit.SECONDS);
+        this.expectSendTime = dateTime;
+    }
+
 }

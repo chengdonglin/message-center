@@ -1,6 +1,6 @@
 package com.message.center.domain.valueobject;
 
-import com.message.center.infrastructure.exception.ParamVerifyException;
+import com.message.center.domain.exception.ParamVerifyException;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 

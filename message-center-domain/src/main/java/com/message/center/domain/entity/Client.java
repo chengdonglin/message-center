@@ -1,9 +1,9 @@
 package com.message.center.domain.entity;
 
 import cn.hutool.crypto.SecureUtil;
-import com.message.center.infrastructure.constants.SystemConstants;
-import com.message.center.infrastructure.exception.ParamVerifyException;
+import com.message.center.domain.exception.ParamVerifyException;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -12,10 +12,11 @@ import java.io.Serializable;
  * @Date 2024-08-08 14:33
  * @PackageName:com.message.center.domain.entity
  * @ClassName: ClientInfo
- * @Description: TODO
+ * @Description: 客户实体
  * @Version 1.0
  */
 @Getter
+@Setter
 public class Client implements Serializable {
 
     private Long id;
@@ -26,13 +27,15 @@ public class Client implements Serializable {
 
     private Long tenantId;
 
+    private Integer status;
+
     public Client() {
 
     }
 
 
     public void match(String token) {
-        String dbToken = SecureUtil.md5(this.apiKey + SystemConstants.KEY + this.apiSecret);
+        String dbToken = SecureUtil.md5(this.apiKey  + this.apiSecret);
         if (dbToken.equals(token)) {
             return;
         }

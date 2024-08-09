@@ -13,7 +13,7 @@ import com.message.center.domain.entity.Message;
 public interface MessageRepository {
 
 
-    void insertMessage(Message message);
+    String insertMessage(Message message);
 
     
 }

@@ -10,7 +10,7 @@ import com.message.center.domain.entity.Client;
  * @Description: TODO
  * @Version 1.0
  */
-public interface ClientReposity {
+public interface ClientRepository {
 
     Client loadByApiKey(String apiKey);
 }

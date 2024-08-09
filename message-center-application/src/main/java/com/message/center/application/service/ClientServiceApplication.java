@@ -1,8 +1,8 @@
 package com.message.center.application.service;
 
 import com.message.center.domain.entity.Client;
-import com.message.center.domain.repository.ClientReposity;
-import com.message.center.infrastructure.exception.ParamVerifyException;
+import com.message.center.domain.exception.ParamVerifyException;
+import com.message.center.domain.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,17 +17,17 @@ import org.springframework.stereotype.Service;
 public class ClientServiceApplication {
 
 
-    private final ClientReposity clientReposity;
+    private final ClientRepository clientRepository;
 
-    public ClientServiceApplication(ClientReposity clientReposity) {
-        this.clientReposity = clientReposity;
+    public ClientServiceApplication(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
     }
 
     /**
      * token 验证
      */
     Client checkApiKey(String apiKey,String token) {
-        Client client = clientReposity.loadByApiKey(apiKey);
+        Client client = clientRepository.loadByApiKey(apiKey);
         if (client == null) {
             throw new ParamVerifyException("apiKey 不存在");
         }

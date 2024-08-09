@@ -1,4 +1,4 @@
-package com.message.center.infrastructure.exception;
+package com.message.center.domain.exception;
 
 /**
  * @Author linchengdong
