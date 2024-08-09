@@ -13,24 +13,24 @@ import org.springframework.stereotype.Service;
  * @Date 2024-08-09 10:59
  * @PackageName:com.message.center.application.service
  * @ClassName: UserService
- * @Description: TODO
+ * @Description: 消息编排服务
  * @Version 1.0
  */
 @Service
-public class MessageService {
+public class MessageServiceApplication {
 
 
-    private final ApiKeyService apiKeyService;
+    private final ClientServiceApplication clientServiceApplication;
     private final MessageRepository messageRepository;
 
-    public MessageService(MessageRepository messageRepository, ClientReposity clientReposity, ApiKeyService apiKeyService) {
+    public MessageServiceApplication(MessageRepository messageRepository, ClientReposity clientReposity, ClientServiceApplication apiKeyService) {
         this.messageRepository = messageRepository;
-        this.apiKeyService = apiKeyService;
+        this.clientServiceApplication = apiKeyService;
     }
 
 
     public String createMessage(MessageCmd.CreateCommand command,String apiKey,String apiToken) {
-        Client client = this.apiKeyService.checkApiKey(apiKey, apiToken);
+        Client client = this.clientServiceApplication.checkApiKey(apiKey, apiToken);
         MqValueObject mqValueObject = new MqValueObject(command.getMqType(), command.getTopic(), command.getRoutingKey(), command.getTag(), command.getSendMq());
         mqValueObject.verify();
         Message message = new Message(command.getId(), command.getBusinessType(), command.getContent(), command.getExpectSendTime(),client,mqValueObject);

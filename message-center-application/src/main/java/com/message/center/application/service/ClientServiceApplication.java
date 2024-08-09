@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
  * @Date 2024-08-09 11:27
  * @PackageName:com.message.center.application.service
  * @ClassName: ApiKeyService
- * @Description: TODO
+ * @Description: 客户端编排服务
  * @Version 1.0
  */
 @Service
-public class ApiKeyService {
+public class ClientServiceApplication {
 
 
     private final ClientReposity clientReposity;
 
-    public ApiKeyService(ClientReposity clientReposity) {
+    public ClientServiceApplication(ClientReposity clientReposity) {
         this.clientReposity = clientReposity;
     }
 
