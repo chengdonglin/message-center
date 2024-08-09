@@ -2,11 +2,11 @@ package com.message.center.domain.entity;
 
 import com.message.center.domain.valueobject.MqValueObject;
 import com.message.center.infrastructure.exception.ParamVerifyException;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @Author linchengdong
@@ -17,7 +17,8 @@ import java.util.Date;
  * @Version 1.0
  */
 @Setter
-public class MessageDomain {
+@Getter
+public class Message {
 
     private String id;
 
@@ -80,11 +81,11 @@ public class MessageDomain {
     private LocalDateTime updateTime;
 
 
-    private ClientDomain client;
+    private Client client;
 
     private MqValueObject mqValueObject;
 
-    public MessageDomain(String id, String businessType, String content, LocalDateTime expectSendTime, ClientDomain client, MqValueObject mqValueObject) {
+    public Message(String id, String businessType, String content, LocalDateTime expectSendTime, Client client, MqValueObject mqValueObject) {
         this.id = id;
         this.businessType = businessType;
         this.content = content;
