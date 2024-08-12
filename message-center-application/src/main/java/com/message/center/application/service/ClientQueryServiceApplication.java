@@ -1,7 +1,7 @@
 package com.message.center.application.service;
 
 import com.message.center.domain.entity.Client;
-import com.message.center.domain.exception.ParamVerifyException;
+import com.message.center.infrastructure.exception.ParamVerifyException;
 import com.message.center.domain.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 

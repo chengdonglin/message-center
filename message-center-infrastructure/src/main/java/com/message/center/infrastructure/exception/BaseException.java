@@ -1,4 +1,4 @@
-package com.message.center.domain.exception;
+package com.message.center.infrastructure.exception;
 
 /**
  * @Author linchengdong
@@ -10,7 +10,15 @@ package com.message.center.domain.exception;
  */
 public class BaseException extends RuntimeException{
 
+    private String code;
+
     public BaseException(String errMs) {
         super(errMs);
+        this.code = "defaultError";
+    }
+
+    public BaseException(String code,String errMs) {
+        super(errMs);
+        this.code = code;
     }
 }
