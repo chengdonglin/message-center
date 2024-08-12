@@ -18,20 +18,20 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class MessageServiceApplication {
+public class MessageCmdServiceApplication {
 
 
-    private final ClientServiceApplication clientServiceApplication;
+    private final ClientQueryServiceApplication clientQueryServiceApplication;
     private final MessageRepository messageRepository;
 
-    public MessageServiceApplication(MessageRepository messageRepository, ClientRepository clientRepository, ClientServiceApplication apiKeyService) {
+    public MessageCmdServiceApplication(MessageRepository messageRepository, ClientRepository clientRepository, ClientQueryServiceApplication apiKeyService) {
         this.messageRepository = messageRepository;
-        this.clientServiceApplication = apiKeyService;
+        this.clientQueryServiceApplication = apiKeyService;
     }
 
 
     public String createMessage(MessageCmd.CreateCommand command,String apiKey,String apiToken) {
-        Client client = this.clientServiceApplication.checkApiKey(apiKey, apiToken);
+        Client client = this.clientQueryServiceApplication.checkApiKey(apiKey, apiToken);
         MqValueObject mqValueObject = new MqValueObject(command.getMqType(), command.getTopic(), command.getRoutingKey(), command.getTag(),command.getSendMq());
         mqValueObject.verify();
         CallbackValueObject callbackValueObject = new CallbackValueObject(command.getNeedCallback(),command.getCallbackUrl());
@@ -42,4 +42,5 @@ public class MessageServiceApplication {
         //todo 发送成功，发送成功事件
         return messageId;
     }
+
 }

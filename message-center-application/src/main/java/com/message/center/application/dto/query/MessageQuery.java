@@ -20,6 +20,8 @@ public class MessageQuery {
     }
 
 
+    @Getter
+    @Setter
     public static class KeyQuery {
         private String key;
     }

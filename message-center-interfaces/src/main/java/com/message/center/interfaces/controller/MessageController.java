@@ -1,10 +1,10 @@
 package com.message.center.interfaces.controller;
 
 import com.message.center.application.dto.command.MessageCmd;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.message.center.application.service.MessageCmdServiceApplication;
+import com.message.center.infrastructure.model.SingleResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author linchengdong
@@ -16,10 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("message")
+@RequiredArgsConstructor
 public class MessageController {
 
-    @PostMapping("push")
-    public void push(@RequestBody  MessageCmd.CreateCommand createCommand) {
+    private final MessageCmdServiceApplication messageCmdServiceApplication;
 
+    @PostMapping("push")
+    public SingleResponse<String> push(@RequestBody  MessageCmd.CreateCommand createCommand, @RequestHeader(value = "apiKey")String apiKey, @RequestHeader(value = "token")String token) {
+        String message = messageCmdServiceApplication.createMessage(createCommand, apiKey, token);
+        return SingleResponse.of(message);
     }
+
+
 }

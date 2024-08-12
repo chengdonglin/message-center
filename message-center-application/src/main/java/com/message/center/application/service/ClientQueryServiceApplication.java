@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class ClientServiceApplication {
+public class ClientQueryServiceApplication {
 
 
     private final ClientRepository clientRepository;
 
-    public ClientServiceApplication(ClientRepository clientRepository) {
+    public ClientQueryServiceApplication(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
