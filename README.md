@@ -37,7 +37,12 @@
 | message-center-Infrastructure | 它主要存放基础资源服务相关的代码，为其它各层提供的通用技术能力、三方软件包、数据库服务、配置和基础资源服务的代码都会放在这一层目录里                                                                 |
 | message-center-boot           | 服务启动层                                                                                                                              |
 
+### 依赖关系说明
 
+- interfaces 依赖 application
+- application 依赖 domain 以及 infrastructure
+- infrastructure 依赖domain， 实现domain的repository
+- domain 不依赖任何
 
 
 ### 技术栈
