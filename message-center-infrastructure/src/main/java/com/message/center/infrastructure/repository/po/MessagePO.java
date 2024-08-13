@@ -1,11 +1,15 @@
 package com.message.center.infrastructure.repository.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @Author linchengdong
@@ -18,9 +22,10 @@ import java.time.LocalDateTime;
 @TableName("t_message")
 @Getter
 @Setter
+@Slf4j
 public class MessagePO {
 
-    @TableId
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
 
     /**
@@ -82,7 +87,8 @@ public class MessagePO {
 
     private String topic;
 
-    private String key;
+    @TableField(value = "message_key")
+    private String messageKey;
 
     private String routingKey;
 
@@ -91,4 +97,20 @@ public class MessagePO {
     private Long tenantId;
 
     private String apiKey;
+
+
+    public boolean pushDelayTaskQuick() {
+        if (this.getExpectSendTime().isBefore(this.getCreateTime())) {
+            return true;
+        }
+        long between = diff();
+        log.info("时间相差 :{}",between);
+        if (between > 120) {
+            return false;
+        }
+        return true;
+    }
+    public long diff() {
+        return Math.abs(ChronoUnit.SECONDS.between(this.getExpectSendTime(), this.getCreateTime()));
+    }
 }

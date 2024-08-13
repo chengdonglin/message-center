@@ -20,8 +20,6 @@ public class MessageCmd {
     @Setter
     public static class CreateCommand {
 
-        private String id;
-
         private String businessType;
 
         private String content;

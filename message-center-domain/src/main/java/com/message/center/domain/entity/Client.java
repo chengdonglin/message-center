@@ -1,7 +1,6 @@
 package com.message.center.domain.entity;
 
 import cn.hutool.crypto.SecureUtil;
-import com.message.center.domain.exception.ParamVerifyException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,11 +33,11 @@ public class Client implements Serializable {
     }
 
 
-    public void match(String token) {
+    public boolean match(String token) {
         String dbToken = SecureUtil.md5(this.apiKey  + this.apiSecret);
         if (dbToken.equals(token)) {
-            return;
+            return true;
         }
-        throw new ParamVerifyException("无效的token");
+        return false;
     }
 }

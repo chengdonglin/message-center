@@ -31,7 +31,10 @@ public class ClientQueryServiceApplication {
         if (client == null) {
             throw new ParamVerifyException("apiKey 不存在");
         }
-        client.match(token);
+        boolean match = client.match(token);
+        if (!match) {
+            throw new IllegalArgumentException("密钥非法");
+        }
         return client;
     }
 }

@@ -1,6 +1,5 @@
 package com.message.center.domain.valueobject;
 
-import com.message.center.domain.exception.ParamVerifyException;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 
@@ -29,7 +28,7 @@ public class CallbackValueObject {
     public void verify() {
         if (needCallback) {
             if (!StringUtils.hasText(callbackUrl)) {
-                throw new ParamVerifyException("setting send callback callbackUrl can not be empty");
+                throw new IllegalArgumentException("setting send callback callbackUrl can not be empty");
             }
         }
     }

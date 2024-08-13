@@ -27,6 +27,9 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Client loadByApiKey(String apiKey) {
         ClientPO clientPO = clientMapper.selectById(apiKey);
+        if (clientPO == null) {
+            return null;
+        }
         return ClientFactory.buildClientFromDb(clientPO);
     }
 }

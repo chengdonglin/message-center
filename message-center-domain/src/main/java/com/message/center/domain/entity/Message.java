@@ -1,10 +1,10 @@
 package com.message.center.domain.entity;
 
-import com.message.center.domain.exception.ParamVerifyException;
 import com.message.center.domain.valueobject.CallbackValueObject;
 import com.message.center.domain.valueobject.MqValueObject;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -20,9 +20,8 @@ import java.time.temporal.ChronoUnit;
  */
 @Setter
 @Getter
+@Slf4j
 public class Message {
-
-    private String id;
 
     private String businessType;
 
@@ -94,8 +93,7 @@ public class Message {
      */
     private LocalDateTime expectSendTime;
 
-    public Message(String id, String businessType, String content,  Client client, MqValueObject mqValueObject,CallbackValueObject callbackValueObject) {
-        this.id = id;
+    public Message(String businessType, String content,  Client client, MqValueObject mqValueObject,CallbackValueObject callbackValueObject) {
         this.businessType = businessType;
         this.content = content;
         this.client = client;
@@ -108,21 +106,20 @@ public class Message {
 
 
     public void verify() {
-        if (!StringUtils.hasText(id)) {
-            throw new ParamVerifyException("id can not be empty");
-        }
         if (!StringUtils.hasText(content)) {
-            throw new ParamVerifyException("content can not be empty");
+            throw new IllegalArgumentException("content can not be empty");
         }
     }
 
 
     public void calculateExpectTime(Integer delaySecond) {
         if(delaySecond < 0) {
-            throw new ParamVerifyException("delaySecond value can not less 0");
+            throw new IllegalArgumentException("delaySecond value can not less 0");
         }
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime dateTime = now.plus(delaySecond, ChronoUnit.SECONDS);
+        log.info("now :{}",now);
+        LocalDateTime dateTime = now.plusSeconds(delaySecond);
+        log.info("expectTime :{}",dateTime);
         this.expectSendTime = dateTime;
     }
 

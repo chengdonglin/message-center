@@ -17,9 +17,8 @@ public class MessageFactory {
 
     public static MessagePO buildPoFromDomain(Message message) {
         MessagePO po = new MessagePO();
-        po.setId(message.getId());
         po.setContent(message.getContent());
-        po.setKey(message.getKey());
+        po.setMessageKey(message.getKey());
         po.setApiKey(message.getClient().getApiKey());
         po.setTenantId(message.getClient().getTenantId());
         po.setCallbackUrl(message.getCallbackValueObject().getCallbackUrl());
@@ -30,7 +29,7 @@ public class MessageFactory {
         po.setFailCount(0);
         po.setStatus(0);
         po.setSendMq(message.getMqValueObject().getSendMq());
-        po.setExpectSendTime(LocalDateTime.now());
+        po.setExpectSendTime(message.getExpectSendTime());
         po.setRoutingKey(message.getMqValueObject().getRoutingKey());
         po.setSendRetry(1);
         return po;
