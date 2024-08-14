@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.message.center.sdk.core.MessagePushAutoConfiguration
