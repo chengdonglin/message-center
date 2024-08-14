@@ -1,6 +1,6 @@
 
 
-## 消息中台
+## 延迟消息中台
 
 基于Mysql + Java Delayed + Job + Redis 实现任意时间延迟消息
 
