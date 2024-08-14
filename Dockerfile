@@ -2,7 +2,7 @@
 FROM maven:3.8.5-openjdk-17-slim AS builder
 WORKDIR /app
 ADD ./ /app
-RUN mvn clean install -Dmaven.test.skip=true
+RUN mvn clean package -Dmaven.test.skip=true
 # 第二阶段，最小运行时环境，只需要jre
 FROM openjdk:17.0.2-jdk-slim
 # 修改时区
