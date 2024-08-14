@@ -37,6 +37,9 @@
 | message-center-domain         | 领域层核心业务逻辑相关的代码。领域层可以包含多个聚合代码包，它们共同实现领域模型的核心业务逻                                                                                     |
 | message-center-Infrastructure | 它主要存放基础资源服务相关的代码，为其它各层提供的通用技术能力、三方软件包、数据库服务、配置和基础资源服务的代码都会放在这一层目录里                                                                 |
 | message-center-boot           | 服务启动层                                                                                                                              |
+ | message-center-sdk| 快速接入消息延时消息中台starter组件|
+| message-center-demo| 接入工程测试|
+
 
 ### 依赖关系说明
 
@@ -60,4 +63,54 @@
 
 ### 接入手册
 
+1. clone 工程下来
+2. 将message-center-sdk 安装到自己的仓库
+3. 添加maven依赖
 
+```yaml
+        <dependency>
+            <groupId>com.ssn.message.center</groupId>
+            <artifactId>message-center-sdk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+```
+
+4. application.yml 配置相关属性
+
+```yaml
+message:
+  center:
+    api-key: xxx
+    secret: xxx
+    url: http://127.0.0.1:9999/message/push
+```
+
+5. 使用
+
+```java
+
+    @Autowired
+    private MessagePushService messagePushService;
+
+    @Test
+    public void test() {
+        MessagePushDTO dto = new MessagePushDTO();
+        dto.setBusinessType("demo");
+        dto.setContent("demo");
+        dto.setTag("demoTag");
+        dto.setMqType("kafka");
+        dto.setTopic("demo");
+        dto.setCallbackUrl("http:127.0.0.1:8000/demo/callback");
+        dto.setDelaySecond(10);
+        dto.setNeedCallback(true);
+        dto.setRoutingKey("demo");
+        dto.setSendRetry(1);
+        dto.setSendMq(1);
+        dto.setMessageKey(UUID.randomUUID().toString());
+        PushResult push = messagePushService.push(dto);
+        log.info("push id {}",push.getMessageId());
+    }
+
+```
+
+6. 参考message-center-demo 工程
