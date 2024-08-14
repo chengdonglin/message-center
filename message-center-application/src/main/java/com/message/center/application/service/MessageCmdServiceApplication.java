@@ -4,11 +4,14 @@ import com.message.center.application.dto.command.MessageCmd;
 import com.message.center.domain.entity.Client;
 import com.message.center.domain.entity.Message;
 import com.message.center.domain.event.MessageSaveEvent;
+import com.message.center.domain.port.ClientPort;
 import com.message.center.domain.repository.ClientRepository;
 import com.message.center.domain.repository.MessageRepository;
 import com.message.center.domain.share.event.DomainEventPublisher;
 import com.message.center.domain.valueobject.CallbackValueObject;
 import com.message.center.domain.valueobject.MqValueObject;
+import com.message.center.infrastructure.exception.ValidationException;
+import com.message.center.infrastructure.utils.ValidationUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,22 +26,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class MessageCmdServiceApplication {
 
+        private final MessageRepository messageRepository;
 
-    private final ClientQueryServiceApplication clientQueryServiceApplication;
-    private final MessageRepository messageRepository;
+    private final ClientPort clientPort;
 
     private final DomainEventPublisher publisher;
 
-    public MessageCmdServiceApplication(MessageRepository messageRepository, ClientRepository clientRepository, ClientQueryServiceApplication apiKeyService, DomainEventPublisher publisher) {
+    public MessageCmdServiceApplication(MessageRepository messageRepository, ClientRepository clientRepository,ClientPort clientPort, DomainEventPublisher publisher) {
         this.messageRepository = messageRepository;
-        this.clientQueryServiceApplication = apiKeyService;
+        this.clientPort = clientPort;
         this.publisher = publisher;
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     public String createMessage(MessageCmd.CreateCommand command,String apiKey,String apiToken) {
-        Client client = this.clientQueryServiceApplication.checkApiKey(apiKey, apiToken);
+        Client client = this.clientPort.queryClientByApiKey(apiKey);
+        if (client == null) {
+            throw ValidationException.of("400","can not found apiKey from db",null);
+        }
+        boolean match = client.match(apiToken);
+        ValidationUtil.isTrue(match,"token is error", null);
+        // Client client = this.clientQueryServiceApplication.checkApiKey(apiKey, apiToken);
         MqValueObject mqValueObject = new MqValueObject(command.getMqType(), command.getTopic(), command.getRoutingKey(), command.getTag(),command.getSendMq());
         mqValueObject.verify();
         CallbackValueObject callbackValueObject = new CallbackValueObject(command.getNeedCallback(),command.getCallbackUrl());

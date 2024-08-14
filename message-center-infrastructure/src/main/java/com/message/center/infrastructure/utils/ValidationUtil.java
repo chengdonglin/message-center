@@ -14,7 +14,7 @@ public class ValidationUtil {
 
     public static void isTrue(boolean expect,String code,Object... params) {
         if (!expect) {
-            throw ValidationException.of(code,params);
+            throw ValidationException.of(code,code,params);
         }
     }
 

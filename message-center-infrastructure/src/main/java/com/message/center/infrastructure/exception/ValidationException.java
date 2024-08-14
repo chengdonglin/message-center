@@ -33,4 +33,8 @@ public class ValidationException extends BaseException{
     public static ValidationException of(String code, Object[] params) {
         return new ValidationException(code, null, params);
     }
+
+    public static ValidationException of(String code, String message, Object[] params) {
+        return new ValidationException(code,message,params);
+    }
 }
