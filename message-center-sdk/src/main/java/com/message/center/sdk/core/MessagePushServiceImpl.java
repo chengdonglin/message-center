@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 /**
  * @Author linchengdong
  * @Date 2024-08-14 14:51
@@ -39,10 +41,12 @@ public class MessagePushServiceImpl implements MessagePushService{
         headers.add(APIKEY, messagePushProperties.getApiKey());
         headers.add(TOKEN, tokenService.generate(messagePushProperties.getApiKey(),messagePushProperties.getSecret()));
         HttpEntity<MessagePushDTO> requestEntity = new HttpEntity<>(messagePushDTO, headers);
-        ResponseEntity<PushResult> response = restTemplate.postForEntity(messagePushProperties.getUrl(), requestEntity, PushResult.class);
+        ResponseEntity<PushResultData> response = restTemplate.postForEntity(messagePushProperties.getUrl(), requestEntity, PushResultData.class);
         log.info("send message center response {}",response);
         if (response.getStatusCode().equals(HttpStatus.OK)) {
-            return response.getBody();
+            if (Objects.requireNonNull(response.getBody()).getSuccess()) {
+                return response.getBody().getData();
+            }
         }
         return null;
     }

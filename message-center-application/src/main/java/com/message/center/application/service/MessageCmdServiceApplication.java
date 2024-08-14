@@ -1,6 +1,7 @@
 package com.message.center.application.service;
 
 import com.message.center.application.dto.command.MessageCmd;
+import com.message.center.application.dto.vo.MessagePushVO;
 import com.message.center.domain.entity.Client;
 import com.message.center.domain.entity.Message;
 import com.message.center.domain.event.MessageSaveEvent;
@@ -40,24 +41,26 @@ public class MessageCmdServiceApplication {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public String createMessage(MessageCmd.CreateCommand command,String apiKey,String apiToken) {
+    public MessagePushVO createMessage(MessageCmd.CreateCommand command, String apiKey, String apiToken) {
         Client client = this.clientPort.queryClientByApiKey(apiKey);
         if (client == null) {
             throw ValidationException.of("400","can not found apiKey from db",null);
         }
         boolean match = client.match(apiToken);
         ValidationUtil.isTrue(match,"token is error", null);
-        // Client client = this.clientQueryServiceApplication.checkApiKey(apiKey, apiToken);
         MqValueObject mqValueObject = new MqValueObject(command.getMqType(), command.getTopic(), command.getRoutingKey(), command.getTag(),command.getSendMq());
         mqValueObject.verify();
         CallbackValueObject callbackValueObject = new CallbackValueObject(command.getNeedCallback(),command.getCallbackUrl());
-        Message message = new Message(command.getBusinessType(), command.getContent(),client,mqValueObject,callbackValueObject);
+        Message message = new Message(command.getBusinessType(), command.getContent(), client, command.getMessageKey(),mqValueObject,callbackValueObject);
         message.verify();
         message.calculateExpectTime(command.getDelaySecond());
         String messageId = messageRepository.insertMessage(message);
         //todo 发送成功，发送成功事件
         publisher.publish(new MessageSaveEvent(this,messageId));
-        return messageId;
+        MessagePushVO vo = new MessagePushVO();
+        vo.setMessageId(messageId);
+        vo.setMessageKey(command.getMessageKey());
+        return vo;
     }
 
 }

@@ -36,4 +36,5 @@ public class MessagePushDTO {
 
     private String mqType;
 
+    private String messageKey;
 }

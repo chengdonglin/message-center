@@ -34,6 +34,7 @@ public class MessageFactory {
         po.setSendRetry(1);
         po.setTopic(message.getMqValueObject().getTopic());
         po.setMessageKey(message.getKey());
+        po.setMessageKey(message.getKey());
         return po;
     }
 }

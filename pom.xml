@@ -15,6 +15,7 @@
         <module>message-center-interfaces</module>
         <module>message-center-boot</module>
         <module>message-center-sdk</module>
+        <module>message-center-demo</module>
     </modules>
 
     <properties>

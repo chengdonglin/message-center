@@ -93,7 +93,7 @@ public class Message {
      */
     private LocalDateTime expectSendTime;
 
-    public Message(String businessType, String content,  Client client, MqValueObject mqValueObject,CallbackValueObject callbackValueObject) {
+    public Message(String businessType, String content,  Client client, String key, MqValueObject mqValueObject,CallbackValueObject callbackValueObject) {
         this.businessType = businessType;
         this.content = content;
         this.client = client;
@@ -102,6 +102,7 @@ public class Message {
         this.sendRetry = 0;
         this.status = 0;
         this.callbackValueObject = callbackValueObject;
+        this.key = key;
     }
 
 

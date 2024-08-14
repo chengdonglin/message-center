@@ -42,5 +42,7 @@ public class MessageCmd {
         private Boolean needCallback;
 
         private String mqType;
+
+        private String messageKey;
     }
 }
