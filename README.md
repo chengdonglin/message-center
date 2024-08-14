@@ -60,6 +60,15 @@
 
 ### 安装步骤
 
+#### 采用docker方式
+```bash
+chmod +777 build.sh
+./build.sh
+
+docker run -d -p 9999:9999 --name center-message-boot:1.0 center-message-boot:1.0
+```
+
+
 
 ### 接入手册
 
