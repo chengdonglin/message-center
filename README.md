@@ -2,6 +2,7 @@
 
 ## 消息中台
 
+基于Mysql + Java Delayed + Job + Redis 实现任意时间延迟消息
 
 ### 背景
 
@@ -52,3 +53,11 @@
 | spring-boot| 2.7.15| springboot基础框架|
 | mybatis-plus| 3.5.5 | 数据库操作|
 | redis | 6.0.0 | 缓存数据库|
+
+
+### 安装步骤
+
+
+### 接入手册
+
+
